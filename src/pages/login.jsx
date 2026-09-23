@@ -1,12 +1,12 @@
 import { useState} from 'react'
 import './login.css'
 import Input from '../components/Input.jsx'
-function Login(){
+function Login({ onLogin }){
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [mensagem, setMensagem] = useState('')
     const [tipoMensagem, setTipoMensagem] = useState('')
-    const [mostrarSenha, setMostrarsenha] = useState(false)
+    const [mostrarSenha, setMostrarSenha] = useState(false)
             function enviarFormulario(event){
                 event.preventDefault()
                 if(email.trim() === ''){
@@ -19,17 +19,16 @@ function Login(){
                     setTipoMensagem('erro')
                     return
                 }
-                setMensagem('login enviado com sucesso')
-                setTipoMensagem('sucesso')
+                onLogin(email.trim())
         }
     return(
         <main className="login-page">
             <section className="login-card">
                 <h1>Login</h1>
-                <form onSubmit={enviarFormulario} noValidate>
+                <form onSubmit={enviarFormulario}>
                 <Input
                     label="E-mail:"
-                    type="text"
+                    type="email"
                     id="email"
                     placeholder="Digite seu email"
                     value={email}
@@ -43,7 +42,11 @@ function Login(){
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <button className='toggle-password' type='button' onClick={() => setMostrarsenha(!mostrarSenha)}>{mostrarSenha ? 'Ocultar senha' : 'Mostrar senha'}</button>
+                <button className='toggle-password' 
+                type='button' 
+                onClick={() => setMostrarSenha(!mostrarSenha)}
+                >
+                {mostrarSenha ? 'Ocultar senha' : 'Mostrar senha'}</button>
                 <button className='login-button' type="submit">Entrar</button>
             </form>
             {mensagem && (
