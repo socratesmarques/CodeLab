@@ -7,14 +7,20 @@ import {
 } from 'react-router'
 import Login from './pages/login.jsx'
 import Home from './pages/Home.jsx'
+import Posts from './pages/Posts.jsx'
 function App() {
-  const [usuario, setUsuario] = useState(null)
+  const [usuario, setUsuario] = useState(() => {
+    return localStorage.getItem('usuario')
+  }
+)
   const navigate = useNavigate()
   function fazerLogin(email){
+    localStorage.setItem('usuario', email)
     setUsuario(email)
     navigate('/home')
   }
   function fazerLogout(){
+    localStorage.removeItem('usuario')
     setUsuario(null)
     navigate('/login')
   }
@@ -32,7 +38,7 @@ function App() {
 
       <Route
         path="/login"
-        element={<Login onLogin={fazerLogin} />}
+        element={usuario ? <Navigate to="/home" replace/> : <Login onLogin={fazerLogin} />}
       />
 
       <Route
@@ -47,6 +53,12 @@ function App() {
       <Route
         path="*"
         element={<Navigate to="/" replace />}
+      />
+      <Route
+        path="/posts"
+        element={
+          usuario ? <Posts /> : <Navigate to="/login" replace />
+        }
       />
     </Routes>
   )

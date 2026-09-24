@@ -5,18 +5,15 @@ function Login({ onLogin }){
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [mensagem, setMensagem] = useState('')
-    const [tipoMensagem, setTipoMensagem] = useState('')
     const [mostrarSenha, setMostrarSenha] = useState(false)
             function enviarFormulario(event){
                 event.preventDefault()
                 if(email.trim() === ''){
                     setMensagem('Digite seu email')
-                    setTipoMensagem('erro')
                     return
                 }
                 if(password.length < 6){
                     setMensagem('A senha precisa ter pelo menos 6 caracteres')
-                    setTipoMensagem('erro')
                     return
                 }
                 onLogin(email.trim())
@@ -46,13 +43,12 @@ function Login({ onLogin }){
                 type='button' 
                 onClick={() => setMostrarSenha(!mostrarSenha)}
                 >
-                {mostrarSenha ? 'Ocultar senha' : 'Mostrar senha'}</button>
+                {mostrarSenha ? 'Ocultar senha' : 'Mostrar senha'}
+                </button>
                 <button className='login-button' type="submit">Entrar</button>
             </form>
             {mensagem && (
-                 <p className={`mensagem ${tipoMensagem}`}>
-                    {mensagem}
-                </p>
+                 <p className='mensagem erro'>{mensagem}</p>
             )}
             </section>
         </main>
